@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Routes, Route, NavLink, Navigate } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PeoplePage } from './pages/PeoplePage';
@@ -40,7 +40,7 @@ export const App: FC = () => {
       <main className="section">
         <div className="container">
           <Routes>
-            <Route path="/home" element={<Navigate to="/" replace />} />
+            <Route path="/" />
 
             <Route path="/" element={<HomePage />} />
 

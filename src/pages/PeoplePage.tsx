@@ -2,15 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Loader } from '../components/Loader';
 import { PeopleTable } from '../components/PeopleTable';
-
-interface Person {
-  name: string;
-  sex: 'm' | 'f';
-  born: number;
-  died: number;
-  motherName?: string;
-  fatherName?: string;
-}
+import { Person } from '../types/Person';
 
 export const PeoplePage: FC = () => {
   const [people, setPeople] = useState<Person[]>([]);

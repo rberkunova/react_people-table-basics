@@ -1,26 +1,16 @@
 import React, { FC } from 'react';
 import { useParams, Link } from 'react-router-dom';
-
-interface Person {
-  name: string;
-  sex: 'm' | 'f';
-  born: number;
-  died: number;
-  motherName?: string;
-  fatherName?: string;
-}
+import { Person } from '../types/Person';
 
 interface Props {
   people: Person[];
 }
 
-// Функція генерує slug: name (у нижньому регістрі, з пробілами на "-") + "-" + рік народження
 function getSlug(person: Person): string {
   return person.name.toLowerCase().replace(/\s+/g, '-') + '-' + person.born;
 }
 
 export const PeopleTable: FC<Props> = ({ people }) => {
-  // Дістаємо :slug (якщо його немає, буде undefined)
   const { slug } = useParams();
 
   return (
@@ -45,18 +35,14 @@ export const PeopleTable: FC<Props> = ({ people }) => {
             {people.map(person => {
               const personSlug = getSlug(person);
 
-              // Перевіряємо, чи збігається поточний :slug з slug цієї персони
               const isSelected = slug === personSlug;
 
-              // Логіка для матері
               let motherCell: React.ReactNode = '-';
 
               if (person.motherName) {
-                // Якщо motherName є (непорожнє), шукаємо відповідну особу
                 const mother = people.find(p => p.name === person.motherName);
 
                 if (mother) {
-                  // Якщо знайшли
                   const motherSlug = getSlug(mother);
 
                   motherCell = (
@@ -68,16 +54,13 @@ export const PeopleTable: FC<Props> = ({ people }) => {
                     </Link>
                   );
                 } else {
-                  // Якщо не знайшли — текст
                   motherCell = person.motherName;
                 }
               }
 
-              // Логіка для батька
               let fatherCell: React.ReactNode = '-';
 
               if (person.fatherName) {
-                // Якщо fatherName є (непорожнє)
                 const father = people.find(p => p.name === person.fatherName);
 
                 if (father) {
@@ -86,7 +69,7 @@ export const PeopleTable: FC<Props> = ({ people }) => {
                   fatherCell = (
                     <Link
                       to={`/people/${fatherSlug}`}
-                      className={father.sex === 'f' ? 'has-text-danger' : ''}
+                      className={father.sex === 'm' ? 'has-text-danger' : ''}
                     >
                       {father.name}
                     </Link>
@@ -96,11 +79,9 @@ export const PeopleTable: FC<Props> = ({ people }) => {
                 }
               }
 
-              // Ім’я самої людини
               const nameLink = (
                 <Link
                   to={`/people/${personSlug}`}
-                  // Якщо це жінка, додаємо .has-text-danger
                   className={person.sex === 'f' ? 'has-text-danger' : ''}
                 >
                   {person.name}
